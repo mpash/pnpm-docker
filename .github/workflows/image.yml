@@ -16,8 +16,8 @@ jobs:
       - name: Build Images
         run: |
           docker buildx build \
-            --tag mitchpash/pnpm:latest \
+            --tag latest \
             --platform linux/amd64,linux/arm/v7,linux/arm64 .
       - name: Push Images
         run: |
-          docker push mitchpash/pnpm:latest
+          docker tag latest mitchpash/pnpm:latest && docker push mitchpash/pnpm:latest
