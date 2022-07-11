@@ -1,0 +1,21 @@
+name: Build Mutliplatform Images
+
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+      - name: build the image
+        run: |
+          docker buildx build \
+            --tag mitchpash/pnpm:latest \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 .
