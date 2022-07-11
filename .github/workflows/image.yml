@@ -2,23 +2,22 @@ name: Build Mutliplatform Images
 
 on:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: checkout code
+      - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        id: buildx
+      - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build Images
         run: |
           docker buildx build \
             --tag mitchpash/pnpm:latest \
             --platform linux/amd64,linux/arm/v7,linux/arm64 .
-      - name: Push to Docker Hub
+      - name: Push Images
         run: |
           docker push mitchpash/pnpm:latest
