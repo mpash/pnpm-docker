@@ -3,4 +3,4 @@ LABEL maintainer="Mitchell Pash <mitch@mitchpash.com>"
 
 ENV NPM_CONFIG_LOGLEVEL error
 
-RUN sudo npm --silent install --global --depth 0 pnpm
+RUN npm --silent install --global --depth 0 pnpm
