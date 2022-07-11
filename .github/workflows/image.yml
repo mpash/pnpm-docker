@@ -7,17 +7,15 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: macos-10.15
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build Images
+      - name: Build & Push Images
         run: |
           docker buildx build \
+            --push \
             --tag latest \
             --platform linux/amd64,linux/arm/v7,linux/arm64 .
-      - name: Push Images
-        run: |
-          docker tag latest mitchpash/pnpm:latest && docker push mitchpash/pnpm:latest
