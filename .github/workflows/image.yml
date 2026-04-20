@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - pnpm-10.33
   workflow_dispatch:
 
 permissions:
