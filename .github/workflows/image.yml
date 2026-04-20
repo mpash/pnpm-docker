@@ -12,7 +12,6 @@ permissions:
 
 env:
   PNPM_VERSION: "10.33.0"
-  PLATFORMS: "linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/ppc64le,linux/s390x"
 
 jobs:
   build:
@@ -20,12 +19,18 @@ jobs:
     strategy:
       matrix:
         include:
+          # node:alpine = floating latest (Node 25, Current) — arm/v6, arm/v7, ppc64le removed in Node 24+
           - node-tag: alpine
             image-tag: latest
+            platforms: linux/amd64,linux/arm64/v8,linux/s390x
+          # Node 24 — Active LTS
           - node-tag: 24-alpine
             image-tag: node24
+            platforms: linux/amd64,linux/arm64/v8,linux/s390x
+          # Node 22 — Maintenance LTS; still ships arm/v6, arm/v7
           - node-tag: 22-alpine
             image-tag: node22
+            platforms: linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/s390x
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -42,7 +47,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           push: true
-          platforms: ${{ env.PLATFORMS }}
+          platforms: ${{ matrix.platforms }}
           build-args: |
             NODE_VERSION=${{ matrix.node-tag }}
             PNPM_VERSION=${{ env.PNPM_VERSION }}
